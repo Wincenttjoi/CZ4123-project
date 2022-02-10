@@ -99,5 +99,14 @@ public class WeatherMemoryStorage implements Storage {
         weatherHumidity.add(humidity);
     }
 
+    public List<Object> getIndexAttributes(int index) {
+        List<Object> attributes = new ArrayList<>();
+        attributes.add(weatherTimestamp.get(index));
+        attributes.add(weatherStation.get(index));
+        attributes.add(weatherTemperature.get(index));
+        attributes.add(weatherHumidity.get(index));
+        return attributes;
+    }
+
 
 }

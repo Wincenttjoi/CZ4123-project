@@ -9,4 +9,5 @@ public interface Storage {
     public List<Double> getWeatherTemperature();
     public void addHeaders(List<String> headers);
     public void addAttributes(String[] attributes) throws ParseException;
+    public List<Object> getIndexAttributes(int index);
 }

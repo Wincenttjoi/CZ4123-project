@@ -1,0 +1,9 @@
+Date,Station,Category,Value
+2019-02-09 08:00,Changi,Max Humidity,94.23
+2019-02-18 04:00,Changi,Max Humidity,94.23
+2019-02-26 05:30,Changi,Max Humidity,94.23
+2019-02-09 13:30,Changi,Min Humidity,46.67
+2019-02-09 13:30,Changi,Max Temperature,34.0
+2019-02-09 14:30,Changi,Max Temperature,34.0
+2019-02-09 15:30,Changi,Max Temperature,34.0
+2019-02-18 06:00,Changi,Min Temperature,22.0

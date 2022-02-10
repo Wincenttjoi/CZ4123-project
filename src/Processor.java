@@ -1,4 +1,7 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLOutput;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -11,6 +14,10 @@ import java.util.*;
 public class Processor {
 
     private static final String STATION = "Changi";
+    private static final int MAX_HUMIDITY = 0;
+    private static final int MIN_HUMIDITY = 1;
+    private static final int MAX_TEMPERATURE = 2;
+    private static final int MIN_TEMPERATURE = 3;
 
     private Storage storage;
 
@@ -31,6 +38,9 @@ public class Processor {
         filterStation(STATION);
         findHumidity();
         findTemperature();
+
+        writeOutputIntoCSV();
+
 //        for (int i = 0; i < filteredMinTemperatureIndex.size(); i++) {
 //            System.out.println("min temp " + filteredMinTemperatureIndex.get(i));
 //        }
@@ -133,6 +143,143 @@ public class Processor {
             if (weatherAttribute.get(index).equals(d)) {
                 fromFilteredIndex.add(index);
             }
+        }
+    }
+
+    private void writeOutputIntoCSV() {
+        try {
+            FileWriter csvWriter = new FileWriter(Common.CSV_FILE_OUTPUT);
+            appendCsvHeaderOutput(csvWriter);
+            appendCsvRow(filteredMaxHumidityIndex, csvWriter, MAX_HUMIDITY);
+            appendCsvRow(filteredMinHumidityIndex, csvWriter, MIN_HUMIDITY);
+            appendCsvRow(filteredMaxTemperatureIndex, csvWriter, MAX_TEMPERATURE);
+            appendCsvRow(filteredMinTemperatureIndex, csvWriter, MIN_TEMPERATURE);
+//            for (int i = 0; i < filteredMaxTemperatureIndex.size(); i++) {
+//                int index = filteredMaxTemperatureIndex.get(i);
+//                List<Object> attributes = storage.getIndexAttributes(index);
+//                appendDate(attributes.get(0), csvWriter);
+//                appendWeatherStation(attributes.get(1), csvWriter);
+//                csvWriter.append("Max Temperature");
+//                appendValue(attributes.get(2), csvWriter);
+//            }
+//
+//            for (int i = 0; i < filteredMinTemperatureIndex.size(); i++) {
+//                int index = filteredMinTemperatureIndex.get(i);
+//                List<Object> attributes = storage.getIndexAttributes(index);
+//                appendDate(attributes.get(0), csvWriter);
+//                appendWeatherStation(attributes.get(1), csvWriter);
+//                csvWriter.append("Min Temperature");
+//                appendValue(attributes.get(2), csvWriter);
+//            }
+//
+//            for (int i = 0; i < filteredMaxHumidityIndex.size(); i++) {
+//                int index = filteredMaxHumidityIndex.get(i);
+//                List<Object> attributes = storage.getIndexAttributes(index);
+//                appendDate(attributes.get(0), csvWriter);
+//                appendWeatherStation(attributes.get(1), csvWriter);
+//                csvWriter.append("Max Humidity");
+//                appendValue(attributes.get(2), csvWriter);
+//            }
+//
+//            for (int i = 0; i < filteredMinHumidityIndex.size(); i++) {
+//                int index = filteredMinHumidityIndex.get(i);
+//                List<Object> attributes = storage.getIndexAttributes(index);
+//                appendDate(attributes.get(0), csvWriter);
+//                appendWeatherStation(attributes.get(1), csvWriter);
+//                csvWriter.append("Min Humidity");
+//                appendValue(attributes.get(2), csvWriter);
+//            }
+            csvWriter.flush();
+            csvWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void appendCsvHeaderOutput(FileWriter csvWriter) {
+        try {
+            csvWriter.append("Date");
+            csvWriter.append(",");
+            csvWriter.append("Station");
+            csvWriter.append(",");
+            csvWriter.append("Category");
+            csvWriter.append(",");
+            csvWriter.append("Value");
+            csvWriter.append("\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void appendCsvRow(List<Integer> filteredIndex, FileWriter csvWriter, int type) {
+        try {
+            for (int i = 0; i < filteredIndex.size(); i++) {
+                int index = filteredIndex.get(i);
+                List<Object> attributes = storage.getIndexAttributes(index);
+                appendDate(attributes.get(0), csvWriter);
+                appendWeatherStation(attributes.get(1), csvWriter);
+
+                if (type == MAX_HUMIDITY) {
+                    csvWriter.append("Max Humidity");
+                } else if (type == MIN_HUMIDITY) {
+                    csvWriter.append("Min Humidity");
+                } else if (type == MAX_TEMPERATURE) {
+                    csvWriter.append("Max Temperature");
+                } else if (type == MIN_TEMPERATURE) {
+                    csvWriter.append("Min Temperature");
+                } else {
+                    throw new IOException();
+                }
+
+                if (type == MAX_TEMPERATURE || type == MIN_TEMPERATURE) {
+                    appendValue(attributes.get(2), csvWriter);
+                } else if (type == MAX_HUMIDITY || type == MIN_HUMIDITY) {
+                    appendValue(attributes.get(3), csvWriter);
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private String convertDateToString(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat(Common.DATE_FORMAT);
+        String strDate = dateFormat.format(date);
+        return strDate;
+    }
+
+    private void appendDate(Object attributes, FileWriter csvWriter) {
+        try {
+            Date date = (Date) attributes;
+            String strDate = convertDateToString(date);
+            csvWriter.append(strDate);
+            csvWriter.append(",");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void appendWeatherStation(Object attributes, FileWriter csvWriter) {
+        try {
+            String weatherStation = (String) attributes;
+            csvWriter.append(weatherStation);
+            csvWriter.append(",");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void appendValue(Object attributes, FileWriter csvWriter) {
+        try {
+            csvWriter.append(",");
+            String value = attributes.toString();
+            csvWriter.append(value);
+            csvWriter.append("\n");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
