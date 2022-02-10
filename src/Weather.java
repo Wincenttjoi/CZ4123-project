@@ -7,12 +7,41 @@ public class Weather {
     private double temperature;
     private double humidity;
 
-    public Weather(int id, String timestamp, String station, double temperature, double humidity) {
+    private Weather(int id, String timestamp, String station, double temperature, double humidity) {
         this.id = id;
         this.timestamp = timestamp;
         this.station = station;
         this.temperature = temperature;
         this.humidity = humidity;
+    }
+
+    public static Weather createWeather(String[] metadata) {
+        int id = Integer.parseInt(metadata[0]);
+        String timestamp;
+        if (!metadata[1].equals("M")) {
+            timestamp = metadata[1];
+        } else {
+            timestamp = "";
+        }
+        String station;
+        if (!metadata[2].equals("M")) {
+            station = metadata[2];
+        } else {
+            station = "";
+        }
+        double temperature;
+        if (!metadata[3].equals("M")) {
+            temperature = Double.parseDouble(metadata[3]);
+        } else {
+            temperature = Double.NaN;
+        }
+        double humidity;
+        if (!metadata[4].equals("M")) {
+            humidity = Double.parseDouble(metadata[4]);
+        } else {
+            humidity = Double.NaN;
+        }
+        return new Weather(id, timestamp, station, temperature, humidity);
     }
 
     public int getId() {

@@ -19,7 +19,6 @@ public class Ingestion {
         for (Weather w : weathers) {
             System.out.println(w);
         }
-
     }
 
     private static List<Weather> readWeatherFromCSV(String fileName) {
@@ -36,7 +35,7 @@ public class Ingestion {
                     isHeader = FALSE;
                 } else {
                     String[] attributes = line.split(",");
-                    Weather weather = createWeather(attributes);
+                    Weather weather = Weather.createWeather(attributes);
                     weathers.add(weather);
                 }
                 line = br.readLine();
@@ -65,35 +64,6 @@ public class Ingestion {
             ioe.printStackTrace();
         }
         return header;
-    }
-
-    private static Weather createWeather(String[] metadata) {
-        int id = Integer.parseInt(metadata[0]);
-        String timestamp;
-        if (!metadata[1].equals("M")) {
-            timestamp = metadata[1];
-        } else {
-            timestamp = "";
-        }
-        String station;
-        if (!metadata[2].equals("M")) {
-            station = metadata[2];
-        } else {
-            station = "";
-        }
-        double temperature;
-        if (!metadata[3].equals("M")) {
-            temperature = Double.parseDouble(metadata[3]);
-        } else {
-            temperature = Double.NaN;
-        }
-        double humidity;
-        if (!metadata[4].equals("M")) {
-            humidity = Double.parseDouble(metadata[4]);
-        } else {
-            humidity = Double.NaN;
-        }
-        return new Weather(id, timestamp, station, temperature, humidity);
     }
 
 }
