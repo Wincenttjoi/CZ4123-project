@@ -8,11 +8,14 @@ import java.util.*;
  */
 
 public class Processor {
-    private final static String EARLIEST_DATE = "2009-01-01 00:00";
-    private final static String LATEST_DATE = "2019-01-01 00:00";
+
+    private static final String STATION = "Changi";
 
     private Storage storage;
-    private List<Integer> indexBetweenTimestamp = new ArrayList<>();
+
+    private List<Integer> timestampIndex = new ArrayList<>();
+    private List<Integer> filteredStationIndex = new ArrayList<>();
+
     private Integer[] maxHumidity = new Integer[12];
     private Integer[] minHumidity = new Integer[12];
     private Integer[] maxTemperature = new Integer[12];
@@ -25,6 +28,7 @@ public class Processor {
     public void processData() {
         // month from 0 to 11
         initializeValidTimestamps(2019, 11);
+        filterStation(STATION);
         
     }
 
@@ -36,7 +40,18 @@ public class Processor {
             Date minDate = minCal.getTime();
             Date maxDate = maxCal.getTime();
             if (timestamps.get(i).after(minDate) && timestamps.get(i).before(maxDate)) {
-                indexBetweenTimestamp.add(i);
+                timestampIndex.add(i);
+            }
+        }
+    }
+
+    private void filterStation(String str) {
+        List<String> weatherStations = storage.getWeatherStation();
+        for (int i = 0; i < timestampIndex.size(); i++) {
+            int index = timestampIndex.get(i);
+            if (weatherStations.get(index).equals(STATION)) {
+                filteredStationIndex.add(index);
+                System.out.println(index);
             }
         }
     }
