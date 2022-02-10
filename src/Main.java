@@ -4,7 +4,7 @@ public class Main {
         // Toggle type for task 2
         WeatherMemoryStorage memStorage = new WeatherMemoryStorage();
 
-        Ingestion.readCSVHeader(Common.CSV_FILE_PATH, memStorage);
+//        Ingestion.readCSVHeader(Common.CSV_FILE_PATH, memStorage);
 
         Ingestion.readWeatherFromCSV(Common.CSV_FILE_PATH, memStorage);
 

@@ -18,6 +18,8 @@ public class Processor {
     private List<Integer> filteredStationIndex = new ArrayList<>();
     private List<Integer> filteredMaxHumidityIndex = new ArrayList<>();
     private List<Integer> filteredMinHumidityIndex = new ArrayList<>();
+    private List<Integer> filteredMaxTemperatureIndex = new ArrayList<>();
+    private List<Integer> filteredMinTemperatureIndex = new ArrayList<>();
 
     public Processor(Storage storage) {
         this.storage = storage;
@@ -28,8 +30,18 @@ public class Processor {
         initializeValidTimestamps(2019, 1);
         filterStation(STATION);
         findHumidity();
+        findTemperature();
+//        for (int i = 0; i < filteredMinTemperatureIndex.size(); i++) {
+//            System.out.println("min temp " + filteredMinTemperatureIndex.get(i));
+//        }
+//        for (int i = 0; i < filteredMaxTemperatureIndex.size(); i++) {
+//            System.out.println("max temp " + filteredMaxTemperatureIndex.get(i));
+//        }
 //        for (int i = 0; i < filteredMinHumidityIndex.size(); i++) {
-//            System.out.println("test" + filteredMinHumidityIndex.get(i));
+//            System.out.println("min humid " + filteredMinHumidityIndex.get(i));
+//        }
+//        for (int i = 0; i < filteredMaxHumidityIndex.size(); i++) {
+//            System.out.println("max humid " + filteredMaxHumidityIndex.get(i));
 //        }
 
     }
@@ -64,34 +76,63 @@ public class Processor {
     }
 
     private void findMaxHumidity(List<Double> weatherHumidity) {
-        double mx = Double.NEGATIVE_INFINITY;
-        for (int i = 0; i < filteredStationIndex.size(); i++) {
-            int index = filteredStationIndex.get(i);
-            if (weatherHumidity.get(index) > mx && !weatherHumidity.get(index).isNaN()) {
-                mx = weatherHumidity.get(index);
-            }
-        }
-        addHumidityIndex(filteredMaxHumidityIndex, weatherHumidity, mx);
+        double mx = findMaxValue(weatherHumidity);
+//        System.out.println("max humid = " + mx);
+        addIndexPosition(filteredMaxHumidityIndex, weatherHumidity, mx);
     }
 
     private void findMinHumidity(List<Double> weatherHumidity) {
+        double mn = findMinValue(weatherHumidity);
+//        System.out.println("min humid = " + mn);
+        addIndexPosition(filteredMinHumidityIndex, weatherHumidity, mn);
+    }
+
+    private void findTemperature() {
+        List<Double> weatherTemperature = storage.getWeatherTemperature();
+        findMaxTemperature(weatherTemperature);
+        findMinTemperature(weatherTemperature);
+    }
+
+    private void findMaxTemperature(List<Double> weatherTemperature) {
+        double mx = findMaxValue(weatherTemperature);
+//        System.out.println("max temp is " + mx);
+        addIndexPosition(filteredMaxTemperatureIndex, weatherTemperature, mx);
+    }
+
+    private void findMinTemperature(List<Double> weatherTemperature) {
+        double mn = findMinValue(weatherTemperature);
+//        System.out.println("min temp is " + mn);
+        addIndexPosition(filteredMinTemperatureIndex, weatherTemperature, mn);
+    }
+
+    private double findMaxValue(List<Double> weatherAttribute) {
+        double mx = Double.NEGATIVE_INFINITY;
+        for (int i = 0; i < filteredStationIndex.size(); i++) {
+            int index = filteredStationIndex.get(i);
+            if (weatherAttribute.get(index) > mx && !weatherAttribute.get(index).isNaN()) {
+                mx = weatherAttribute.get(index);
+            }
+        }
+        return mx;
+    }
+
+    private double findMinValue(List<Double> weatherAttribute) {
         double mn = Double.POSITIVE_INFINITY;
         for (int i = 0; i < filteredStationIndex.size(); i++) {
             int index = filteredStationIndex.get(i);
-            if (weatherHumidity.get(index) < mn && !weatherHumidity.get(index).isNaN()) {
-                mn = weatherHumidity.get(index);
+            if (weatherAttribute.get(index) < mn && !weatherAttribute.get(index).isNaN()) {
+                mn = weatherAttribute.get(index);
             }
         }
-        addHumidityIndex(filteredMinHumidityIndex, weatherHumidity, mn);
+        return mn;
     }
 
-    private void addHumidityIndex(List<Integer> filteredHumidityIndex, List<Double> weatherHumidity, Double d) {
+    private void addIndexPosition(List<Integer> fromFilteredIndex, List<Double> weatherAttribute, Double d) {
         for (int i = 0; i < filteredStationIndex.size(); i++) {
             int index = filteredStationIndex.get(i);
-            if (weatherHumidity.get(index).equals(d)) {
-                filteredHumidityIndex.add(index);
+            if (weatherAttribute.get(index).equals(d)) {
+                fromFilteredIndex.add(index);
             }
         }
     }
-
 }
