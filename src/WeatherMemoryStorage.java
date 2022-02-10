@@ -68,7 +68,7 @@ public class WeatherMemoryStorage implements Storage {
 
         Date timestamp;
         if (!attributes[1].equals(EMPTY_FIELD)) {
-            timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(attributes[1]);
+            timestamp = new SimpleDateFormat(Common.DATE_FORMAT).parse(attributes[1]);
         } else {
             timestamp = null;
         }

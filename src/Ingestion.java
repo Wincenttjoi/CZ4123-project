@@ -13,23 +13,9 @@ import static java.lang.Boolean.TRUE;
 
 
 public class Ingestion {
-    public static void main(String[] args) {
+    private static final String COMMA_DELIMITER = ",";
 
-        // Toggle type for task 2
-        WeatherMemoryStorage memStorage = new WeatherMemoryStorage();
-
-        readCSVHeader("src/SingaporeWeather.csv", memStorage);
-
-        readWeatherFromCSV("src/SingaporeWeather.csv", memStorage);
-
-        for (Double w : memStorage.getWeatherHumidity()) {
-            System.out.println(w);
-        }
-
-    }
-
-    private static void readWeatherFromCSV(String fileName, Storage storage) {
-        List<Weather> weathers = new ArrayList<>();
+    public static void readWeatherFromCSV(String fileName, Storage storage) {
         Path pathToFile = Paths.get(fileName);
         Boolean isHeader = TRUE;
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) {
@@ -41,7 +27,7 @@ public class Ingestion {
                 if (isHeader) {
                     isHeader = FALSE;
                 } else {
-                    String[] attributes = line.split(",");
+                    String[] attributes = line.split(COMMA_DELIMITER);
                     storage.addAttributes(attributes);
                 }
                 line = br.readLine();
@@ -53,7 +39,7 @@ public class Ingestion {
         }
     }
 
-    private static void readCSVHeader(String fileName, Storage storage) {
+    public static void readCSVHeader(String fileName, Storage storage) {
         List<String> header = new ArrayList<>();
         Path pathToFile = Paths.get(fileName);
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) {
@@ -61,7 +47,7 @@ public class Ingestion {
             String line = br.readLine();
 
             // insert header
-            String[] attributes = line.split(",");
+            String[] attributes = line.split(COMMA_DELIMITER);
             for (int i = 0; i < 5; i++) {
                 header.add(attributes[i]);
             }
