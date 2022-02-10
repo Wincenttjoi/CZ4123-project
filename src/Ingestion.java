@@ -69,11 +69,30 @@ public class Ingestion {
 
     private static Weather createWeather(String[] metadata) {
         int id = Integer.parseInt(metadata[0]);
-        String timestamp = metadata[1];
-        String station = metadata[2];
-        double temperature = Double.parseDouble(metadata[3]);
-        double humidity = Double.parseDouble(metadata[4]);
-
+        String timestamp;
+        if (!metadata[1].equals("M")) {
+            timestamp = metadata[1];
+        } else {
+            timestamp = "";
+        }
+        String station;
+        if (!metadata[2].equals("M")) {
+            station = metadata[2];
+        } else {
+            station = "";
+        }
+        double temperature;
+        if (!metadata[3].equals("M")) {
+            temperature = Double.parseDouble(metadata[3]);
+        } else {
+            temperature = Double.NaN;
+        }
+        double humidity;
+        if (!metadata[4].equals("M")) {
+            humidity = Double.parseDouble(metadata[4]);
+        } else {
+            humidity = Double.NaN;
+        }
         return new Weather(id, timestamp, station, temperature, humidity);
     }
 
