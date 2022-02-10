@@ -14,15 +14,21 @@ import static java.lang.Boolean.TRUE;
 
 public class Ingestion {
     public static void main(String[] args) {
-        List<String> header = readCSVHeader("src/SingaporeWeather.csv");
 
-        List<Weather> weathers = readWeatherFromCSV("src/SingaporeWeather.csv"); // let's print all the person read from CSV file for (Book b : books) { System.out.println(b); }
-        for (Weather w : weathers) {
+        // Toggle type for task 2
+        WeatherMemoryStorage memStorage = new WeatherMemoryStorage();
+
+        readCSVHeader("src/SingaporeWeather.csv", memStorage);
+
+        readWeatherFromCSV("src/SingaporeWeather.csv", memStorage);
+
+        for (Double w : memStorage.getWeatherHumidity()) {
             System.out.println(w);
         }
+
     }
 
-    private static List<Weather> readWeatherFromCSV(String fileName) {
+    private static void readWeatherFromCSV(String fileName, Storage storage) {
         List<Weather> weathers = new ArrayList<>();
         Path pathToFile = Paths.get(fileName);
         Boolean isHeader = TRUE;
@@ -36,8 +42,7 @@ public class Ingestion {
                     isHeader = FALSE;
                 } else {
                     String[] attributes = line.split(",");
-                    Weather weather = Weather.createWeather(attributes);
-                    weathers.add(weather);
+                    storage.addAttributes(attributes);
                 }
                 line = br.readLine();
             }
@@ -46,10 +51,9 @@ public class Ingestion {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return weathers;
     }
 
-    private static List<String> readCSVHeader(String fileName) {
+    private static void readCSVHeader(String fileName, Storage storage) {
         List<String> header = new ArrayList<>();
         Path pathToFile = Paths.get(fileName);
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) {
@@ -66,7 +70,7 @@ public class Ingestion {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-        return header;
+        storage.addHeaders(header);
     }
 
 }
