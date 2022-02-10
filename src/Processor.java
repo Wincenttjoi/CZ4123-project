@@ -1,9 +1,6 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /** Author: Wincent Tjoi
  * Matric Number: N2101669E
@@ -26,26 +23,22 @@ public class Processor {
     }
 
     public void processData() {
-        initializeValidTimestamps();
-        for (int i : indexBetweenTimestamp) {
-            System.out.println(i);
-        }
+        // month from 0 to 11
+        initializeValidTimestamps(2019, 11);
+        
     }
 
-    private void initializeValidTimestamps() {
-        try {
-            List<Date> timestamps = new ArrayList<>();
-            timestamps = storage.getWeatherTimestamp();
-            for (int i = 0; i < timestamps.size(); i++) {
-                if (timestamps.get(i).after(new SimpleDateFormat(Common.DATE_FORMAT).parse(EARLIEST_DATE)) &&
-                        timestamps.get(i).before(new SimpleDateFormat(Common.DATE_FORMAT).parse(LATEST_DATE))) {
-                    indexBetweenTimestamp.add(i);
-                }
+    private void initializeValidTimestamps(int year, int month) {
+        List<Date> timestamps = storage.getWeatherTimestamp();
+        for (int i = 0; i < timestamps.size(); i++) {
+            Calendar minCal = new GregorianCalendar(year, month,1);
+            Calendar maxCal = new GregorianCalendar(year, month + 1,1);
+            Date minDate = minCal.getTime();
+            Date maxDate = maxCal.getTime();
+            if (timestamps.get(i).after(minDate) && timestamps.get(i).before(maxDate)) {
+                indexBetweenTimestamp.add(i);
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
-
     }
 
 
