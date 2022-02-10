@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,8 @@ public class Ingestion {
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return weathers;
     }
