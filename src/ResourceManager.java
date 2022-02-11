@@ -15,7 +15,7 @@ public class ResourceManager {
         try {
             encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(filename)));
         } catch (FileNotFoundException fileNotFound) {
-            System.out.println("ERROR: While Creating or Opening the File dvd.xml");
+            System.out.println("ERROR: While Creating or Opening the File");
         }
         encoder.writeObject(lst);
         encoder.close();
@@ -26,7 +26,7 @@ public class ResourceManager {
         try {
             decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
         } catch (FileNotFoundException e) {
-            System.out.println("ERROR: File dvd.xml not found");
+            System.out.println("ERROR: File not found");
         }
         List<String> weatherAttribute = (ArrayList<String>)decoder.readObject();
 
@@ -38,7 +38,7 @@ public class ResourceManager {
         try {
             decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
         } catch (FileNotFoundException e) {
-            System.out.println("ERROR: File dvd.xml not found");
+            System.out.println("ERROR: File not found");
         }
         List<Date> weatherAttribute = (ArrayList<Date>)decoder.readObject();
 
@@ -50,7 +50,7 @@ public class ResourceManager {
         try {
             decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
         } catch (FileNotFoundException e) {
-            System.out.println("ERROR: File dvd.xml not found");
+            System.out.println("ERROR: File not found");
         }
         List<Double> weatherAttribute = (ArrayList<Double>)decoder.readObject();
 
