@@ -90,13 +90,11 @@ public class Processor {
 
     private void findMaxHumidity(List<Double> weatherHumidity) {
         double mx = findMaxValue(weatherHumidity);
-//        System.out.println("max humid = " + mx);
         addIndexPosition(filteredMaxHumidityIndex, weatherHumidity, mx);
     }
 
     private void findMinHumidity(List<Double> weatherHumidity) {
         double mn = findMinValue(weatherHumidity);
-//        System.out.println("min humid = " + mn);
         addIndexPosition(filteredMinHumidityIndex, weatherHumidity, mn);
     }
 
@@ -108,13 +106,11 @@ public class Processor {
 
     private void findMaxTemperature(List<Double> weatherTemperature) {
         double mx = findMaxValue(weatherTemperature);
-//        System.out.println("max temp is " + mx);
         addIndexPosition(filteredMaxTemperatureIndex, weatherTemperature, mx);
     }
 
     private void findMinTemperature(List<Double> weatherTemperature) {
         double mn = findMinValue(weatherTemperature);
-//        System.out.println("min temp is " + mn);
         addIndexPosition(filteredMinTemperatureIndex, weatherTemperature, mn);
     }
 
@@ -159,10 +155,10 @@ public class Processor {
     }
 
     private void writeOutputIntoCSV() {
-            appendCsvRow(filteredMaxHumidityIndex, MAX_HUMIDITY);
-            appendCsvRow(filteredMinHumidityIndex, MIN_HUMIDITY);
-            appendCsvRow(filteredMaxTemperatureIndex, MAX_TEMPERATURE);
-            appendCsvRow(filteredMinTemperatureIndex, MIN_TEMPERATURE);
+        appendCsvRow(filteredMaxHumidityIndex, MAX_HUMIDITY);
+        appendCsvRow(filteredMinHumidityIndex, MIN_HUMIDITY);
+        appendCsvRow(filteredMaxTemperatureIndex, MAX_TEMPERATURE);
+        appendCsvRow(filteredMinTemperatureIndex, MIN_TEMPERATURE);
     }
 
     private void appendCsvHeaderOutput() {

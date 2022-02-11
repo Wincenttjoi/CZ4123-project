@@ -32,6 +32,11 @@ public class Ingestion {
                 }
                 line = br.readLine();
             }
+
+            if (storage instanceof WeatherDiskStorage) {
+                ((WeatherDiskStorage) storage).storeToDiskStorage();
+            }
+
         } catch (IOException ioe) {
             ioe.printStackTrace();
         } catch (ParseException e) {
