@@ -14,53 +14,26 @@ public class WeatherMemoryStorage implements Storage {
     private List<Double> weatherTemperature = new ArrayList<Double>();
     private List<Double> weatherHumidity = new ArrayList<Double>();
 
-//    public List<Integer> getWeatherId() {
-//        return weatherId;
-//    }
-//
-//    public void setWeatherId(List<Integer> weatherId) {
-//        this.weatherId = weatherId;
-//    }
 
     public List<Date> getWeatherTimestamp() {
         return weatherTimestamp;
     }
 
-//    public void setWeatherTimestamp(List<Date> weatherTimestamp) {
-//        this.weatherTimestamp = weatherTimestamp;
-//    }
-
     public List<String> getWeatherStation() {
         return weatherStation;
     }
-
-//    public void setWeatherStation(List<String> weatherStation) {
-//        this.weatherStation = weatherStation;
-//    }
 
     public List<Double> getWeatherTemperature() {
         return weatherTemperature;
     }
 
-//    public void setWeatherTemperature(List<Double> weatherTemperature) {
-//        this.weatherTemperature = weatherTemperature;
-//    }
-
     public List<Double> getWeatherHumidity() {
         return weatherHumidity;
     }
 
-//    public void setWeatherHumidity(List<Double> weatherHumidity) {
-//        this.weatherHumidity = weatherHumidity;
-//    }
-
     public void addHeaders(List<String> headers) {
         weatherColumnHeader.addAll(headers);
     }
-
-//    public List<String> getHeaders() {
-//        return weatherColumnHeader;
-//    }
 
     public void addAttributes(String[] attributes) throws ParseException {
         int id = Integer.parseInt(attributes[0]);
