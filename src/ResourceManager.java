@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Stores and retrieves data from/to disk storage
+ */
 public class ResourceManager {
 
     public void saveData(String filename, List<? extends Object> lst) {
@@ -18,22 +21,10 @@ public class ResourceManager {
         encoder.close();
     }
 
-    public List<Integer> loadDataInt(String filename) {
-        XMLDecoder decoder = null;
-        try {
-            decoder=new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
-        } catch (FileNotFoundException e) {
-            System.out.println("ERROR: File dvd.xml not found");
-        }
-        List<Integer> weatherAttribute = (ArrayList<Integer>)decoder.readObject();
-
-        return weatherAttribute;
-    }
-
     public List<String> loadDataString(String filename) {
         XMLDecoder decoder = null;
         try {
-            decoder=new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
+            decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
         } catch (FileNotFoundException e) {
             System.out.println("ERROR: File dvd.xml not found");
         }
@@ -45,7 +36,7 @@ public class ResourceManager {
     public List<Date> loadDataDate(String filename) {
         XMLDecoder decoder = null;
         try {
-            decoder=new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
+            decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
         } catch (FileNotFoundException e) {
             System.out.println("ERROR: File dvd.xml not found");
         }
@@ -57,7 +48,7 @@ public class ResourceManager {
     public List<Double> loadDataDouble(String filename) {
         XMLDecoder decoder = null;
         try {
-            decoder=new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
+            decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
         } catch (FileNotFoundException e) {
             System.out.println("ERROR: File dvd.xml not found");
         }

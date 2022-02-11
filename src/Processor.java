@@ -4,11 +4,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/** Author: Wincent Tjoi
+/**
  * Matric Number: N2101669E
- * To process: station and humidity extreme values of each month between year 2009 to 2019 at Changi
+ * To process temperature and humidity extreme values of each month between year 2009 to 2019 at Changi.
+ * Result will be put in a ScanResult file.
  */
-
 public class Processor {
 
     private static final String STATION = "Changi";
@@ -37,6 +37,13 @@ public class Processor {
         this.storage = storage;
     }
 
+    /**
+     * Main processing method to scan through the columnar storage and output into a file.
+     * First, it will filter all the indexes eligible within the particular month and year.
+     * Second, the indexes will be further filtered by station attribute.
+     * Third, max and min humidity and temperature will be filtered and output is written to a file.
+     * These 3 steps are repeated for each month within the year range.
+     */
     public void processData() {
         try {
             csvWriter = new FileWriter(Common.CSV_FILE_OUTPUT);
@@ -56,8 +63,9 @@ public class Processor {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
+    // ========================== FILTER METHODS ==========================
 
     private void initializeValidTimestamps(int year, int month) {
         List<Date> timestamps = storage.getWeatherTimestamp();
@@ -153,6 +161,8 @@ public class Processor {
         filteredMaxTemperatureIndex.clear();
         filteredMinTemperatureIndex.clear();
     }
+
+    // ========================== FILE OUTPUT METHODS ==========================
 
     private void writeOutputIntoCSV() {
         appendCsvRow(filteredMaxHumidityIndex, MAX_HUMIDITY);

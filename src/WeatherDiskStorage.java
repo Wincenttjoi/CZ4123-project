@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class WeatherDiskStorage extends WeatherMemoryStorage {
+public class WeatherDiskStorage implements Storage {
     private static final String EMPTY_FIELD = "M";
     private static final String ID_FILE = "weatherId.xml";
     private static final String TIMESTAMP_FILE = "weatherTimestamp.xml";

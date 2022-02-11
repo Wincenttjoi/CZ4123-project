@@ -11,10 +11,17 @@ import java.util.List;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
-
+/**
+ * Responsible to parse CSV input data and store into storage.
+ */
 public class Ingestion {
     private static final String COMMA_DELIMITER = ",";
 
+    /**
+     * Skips the CSV header and reads the body content of a CSV file.
+     * @param fileName the file to be read
+     * @param storage memory or disk storage to store data
+     */
     public static void readWeatherFromCSV(String fileName, Storage storage) {
         Path pathToFile = Paths.get(fileName);
         Boolean isHeader = TRUE;
